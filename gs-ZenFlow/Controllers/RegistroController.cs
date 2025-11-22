@@ -33,11 +33,19 @@ public class RegistroController : ControllerBase
         }
         catch (InvalidOperationException ex)
         {
-            return BadRequest(new { message = ex.Message });
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status400BadRequest,
+                title: "Erro ao criar registro"
+            );
         }
         catch (ArgumentException ex)
         {
-            return BadRequest(new { message = ex.Message });
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status400BadRequest,
+                title: "Erro ao criar registro"
+            );
         }
     }
     
@@ -50,7 +58,11 @@ public class RegistroController : ControllerBase
         var registro = await _registroUseCase.GetRegistroByIdAsync(id);
         
         if (registro == null)
-            return NotFound(new { message = "Registro não encontrado" });
+            return Problem(
+                detail: "Registro não encontrado",
+                statusCode: StatusCodes.Status404NotFound,
+                title: "Recurso não encontrado"
+            );
 
         return Ok(registro);
     }
@@ -77,7 +89,11 @@ public class RegistroController : ControllerBase
         }
         catch (InvalidOperationException ex)
         {
-            return BadRequest(new { message = ex.Message });
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status400BadRequest,
+                title: "Erro ao buscar registros"
+            );
         }
     }
     
@@ -96,11 +112,19 @@ public class RegistroController : ControllerBase
         }
         catch (InvalidOperationException ex)
         {
-            return NotFound(new { message = ex.Message });
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status404NotFound,
+                title: "Recurso não encontrado"
+            );
         }
         catch (UnauthorizedAccessException ex)
         {
-            return Unauthorized(new { message = ex.Message });
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status401Unauthorized,
+                title: "Acesso não autorizado"
+            );
         }
     }
 }

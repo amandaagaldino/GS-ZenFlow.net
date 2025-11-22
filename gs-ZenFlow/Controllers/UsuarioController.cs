@@ -33,11 +33,19 @@ public class UsuarioController : ControllerBase
         }
         catch (InvalidOperationException ex)
         {
-            return BadRequest(new { message = ex.Message });
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status400BadRequest,
+                title: "Erro ao criar usuário"
+            );
         }
         catch (ArgumentException ex)
         {
-            return BadRequest(new { message = ex.Message });
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status400BadRequest,
+                title: "Erro ao criar usuário"
+            );
         }
     }
     
@@ -53,7 +61,11 @@ public class UsuarioController : ControllerBase
         var usuario = await _usuarioUseCase.LoginAsync(dto);
         
         if (usuario == null)
-            return Unauthorized(new { message = "Email ou senha incorretos" });
+            return Problem(
+                detail: "Email ou senha incorretos",
+                statusCode: StatusCodes.Status401Unauthorized,
+                title: "Falha na autenticação"
+            );
 
         return Ok(usuario);
     }
@@ -67,7 +79,11 @@ public class UsuarioController : ControllerBase
         var usuario = await _usuarioUseCase.GetUsuarioByIdAsync(id);
         
         if (usuario == null)
-            return NotFound(new { message = "Usuário não encontrado" });
+            return Problem(
+                detail: "Usuário não encontrado",
+                statusCode: StatusCodes.Status404NotFound,
+                title: "Recurso não encontrado"
+            );
 
         return Ok(usuario);
     }
@@ -99,13 +115,25 @@ public class UsuarioController : ControllerBase
         catch (InvalidOperationException ex)
         {
             if (ex.Message.Contains("não encontrado"))
-                return NotFound(new { message = ex.Message });
+                return Problem(
+                    detail: ex.Message,
+                    statusCode: StatusCodes.Status404NotFound,
+                    title: "Recurso não encontrado"
+                );
             
-            return BadRequest(new { message = ex.Message });
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status400BadRequest,
+                title: "Erro ao alterar email"
+            );
         }
         catch (ArgumentException ex)
         {
-            return BadRequest(new { message = ex.Message });
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status400BadRequest,
+                title: "Erro ao alterar email"
+            );
         }
     }
     
@@ -127,13 +155,25 @@ public class UsuarioController : ControllerBase
         catch (InvalidOperationException ex)
         {
             if (ex.Message.Contains("não encontrado"))
-                return NotFound(new { message = ex.Message });
+                return Problem(
+                    detail: ex.Message,
+                    statusCode: StatusCodes.Status404NotFound,
+                    title: "Recurso não encontrado"
+                );
             
-            return BadRequest(new { message = ex.Message });
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status400BadRequest,
+                title: "Erro ao alterar senha"
+            );
         }
         catch (ArgumentException ex)
         {
-            return BadRequest(new { message = ex.Message });
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status400BadRequest,
+                title: "Erro ao alterar senha"
+            );
         }
     }
     
@@ -150,7 +190,11 @@ public class UsuarioController : ControllerBase
         }
         catch (InvalidOperationException ex)
         {
-            return NotFound(new { message = ex.Message });
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status404NotFound,
+                title: "Recurso não encontrado"
+            );
         }
     }
 }

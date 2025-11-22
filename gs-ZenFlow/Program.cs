@@ -2,8 +2,12 @@ using gs_ZenFlow.Application.UseCase;
 using gs_ZenFlow.Domain.Repositories;
 using gs_ZenFlow.Infrastructure.Data;
 using gs_ZenFlow.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Linq;
 using System.Reflection;
 
 namespace gs_ZenFlow;
@@ -27,8 +31,41 @@ public class Program
         builder.Services.AddScoped<IUsuarioUseCase, UsuarioUseCase>();
         builder.Services.AddScoped<IRegistroUseCase, RegistroUseCase>();
 
-        // Configurar Controllers
-        builder.Services.AddControllers();
+        // Configurar Controllers com ProblemDetails
+        builder.Services.AddControllers()
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                // Configurar ProblemDetails para validação de modelo
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var problemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails
+                    {
+                        Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                        Title = "Erro de validação",
+                        Status = StatusCodes.Status400BadRequest,
+                        Detail = "Um ou mais erros de validação ocorreram.",
+                        Instance = context.HttpContext.Request.Path
+                    };
+
+                    // Adicionar erros de validação ao ProblemDetails
+                    var errors = context.ModelState
+                        .Where(x => x.Value?.Errors.Count > 0)
+                        .ToDictionary(
+                            kvp => kvp.Key,
+                            kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray()
+                        );
+
+                    problemDetails.Extensions.Add("errors", errors);
+
+                    return new BadRequestObjectResult(problemDetails)
+                    {
+                        ContentTypes = { "application/problem+json", "application/problem+xml" }
+                    };
+                };
+            });
+        
+        // Configurar ProblemDetails
+        builder.Services.AddProblemDetails();
 
         // Configurar Swagger/OpenAPI
         builder.Services.AddEndpointsApiExplorer();
@@ -75,6 +112,37 @@ public class Program
         var app = builder.Build();
 
         // Configure the HTTP request pipeline
+        
+        // Configurar tratamento global de exceções com ProblemDetails
+        app.UseExceptionHandler(exceptionHandlerApp =>
+        {
+            exceptionHandlerApp.Run(async context =>
+            {
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                context.Response.ContentType = "application/problem+json";
+
+                var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+                var exception = exceptionHandlerPathFeature?.Error;
+
+                var problemDetails = new ProblemDetails
+                {
+                    Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
+                    Title = "Erro interno do servidor",
+                    Status = StatusCodes.Status500InternalServerError,
+                    Detail = app.Environment.IsDevelopment() ? exception?.Message : "Ocorreu um erro ao processar sua solicitação.",
+                    Instance = context.Request.Path
+                };
+
+                if (app.Environment.IsDevelopment() && exception != null)
+                {
+                    problemDetails.Extensions.Add("traceId", context.TraceIdentifier);
+                    problemDetails.Extensions.Add("stackTrace", exception.StackTrace);
+                }
+
+                await context.Response.WriteAsJsonAsync(problemDetails);
+            });
+        });
+
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
