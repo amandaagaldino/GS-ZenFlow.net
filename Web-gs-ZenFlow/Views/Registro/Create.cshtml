@@ -4,52 +4,84 @@
     ViewData["Title"] = "Criar Registro";
 }
 
-<h1>Criar Registro</h1>
+<div class="page-header" style="background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);">
+    <h1><i class="fas fa-plus me-2"></i>Criar Novo Registro</h1>
+</div>
 
-<form asp-action="Create">
-    <div asp-validation-summary="ModelOnly"></div>
-    
-    @if (ViewBag.UsuarioId != null)
-    {
-        <div>
-            <label>Usuário</label>
-            <input type="text" value="@ViewBag.UsuarioNome" readonly />
-            <input type="hidden" name="usuarioId" value="@ViewBag.UsuarioId" />
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header" style="background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);">
+                <h5 class="mb-0"><i class="fas fa-clipboard-edit me-2"></i>Informações do Registro</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                    
+                    @if (ViewBag.UsuarioId != null)
+                    {
+                        <div class="mb-3">
+                            <label class="form-label">Usuário</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input type="text" value="@ViewBag.UsuarioNome" class="form-control" readonly />
+                                <input type="hidden" name="usuarioId" value="@ViewBag.UsuarioId" />
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-3">
+                            <label class="form-label">Usuário <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <select name="usuarioId" class="form-select" required>
+                                    <option value="">Selecione um usuário</option>
+                                    @foreach (var usuario in (List<Web_gs_ZenFlow.Application.DTOs.Usuario.UsuarioResponseDto>)ViewBag.Usuarios)
+                                    {
+                                        <option value="@usuario.Id">@usuario.NomeCompleto</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    }
+                    
+                    <div class="mb-3">
+                        <label asp-for="NivelEstresse" class="form-label"></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-thermometer-half"></i></span>
+                            <input asp-for="NivelEstresse" type="number" min="1" max="5" class="form-control" placeholder="1 a 5" />
+                        </div>
+                        <small class="form-text text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Escala de 1 (muito baixo) a 5 (muito alto)
+                        </small>
+                        <span asp-validation-for="NivelEstresse" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Observacoes" class="form-label"></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-comment"></i></span>
+                            <textarea asp-for="Observacoes" class="form-control" rows="4" placeholder="Digite observações sobre o registro (opcional)"></textarea>
+                        </div>
+                        <span asp-validation-for="Observacoes" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save me-2"></i>Criar Registro
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    }
-    else
-    {
-        <div>
-            <label>Usuário</label>
-            <select name="usuarioId" required>
-                <option value="">Selecione um usuário</option>
-                @foreach (var usuario in (List<Web_gs_ZenFlow.Application.DTOs.Usuario.UsuarioResponseDto>)ViewBag.Usuarios)
-                {
-                    <option value="@usuario.Id">@usuario.NomeCompleto</option>
-                }
-            </select>
-        </div>
-    }
-    
-    <div>
-        <label asp-for="NivelEstresse"></label>
-        <input asp-for="NivelEstresse" type="number" min="1" max="5" />
-        <span asp-validation-for="NivelEstresse"></span>
     </div>
-    
-    <div>
-        <label asp-for="Observacoes"></label>
-        <textarea asp-for="Observacoes"></textarea>
-        <span asp-validation-for="Observacoes"></span>
-    </div>
-    
-    <div>
-        <input type="submit" value="Criar" />
-        <a asp-action="Index">Cancelar</a>
-    </div>
-</form>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

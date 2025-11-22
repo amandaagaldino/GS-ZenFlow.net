@@ -5,49 +5,162 @@
     var usuario = ViewBag.Usuario as Web_gs_ZenFlow.Application.DTOs.Usuario.UsuarioResponseDto;
 }
 
-<h1>Registros do Usuário</h1>
+<div class="page-header" style="background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1><i class="fas fa-clipboard-list me-2"></i>Registros do Usuário</h1>
+            @if (usuario != null)
+            {
+                <p>@usuario.NomeCompleto - @usuario.Email</p>
+            }
+        </div>
+        <div>
+            @if (usuario != null)
+            {
+                <a asp-action="Create" asp-route-usuarioId="@usuario.Id" class="btn btn-light">
+                    <i class="fas fa-plus me-2"></i>Novo Registro
+                </a>
+            }
+        </div>
+    </div>
+</div>
 
 @if (usuario != null)
 {
-    <div>
-        <h3>@usuario.NomeCompleto</h3>
-        <p>Email: @usuario.Email</p>
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong><i class="fas fa-user me-2 text-primary"></i>Nome:</strong>
+                            <p class="mb-0">@usuario.NomeCompleto</p>
+                        </div>
+                        <div class="col-md-3">
+                            <strong><i class="fas fa-envelope me-2 text-primary"></i>Email:</strong>
+                            <p class="mb-0">@usuario.Email</p>
+                        </div>
+                        <div class="col-md-3">
+                            <strong><i class="fas fa-crown me-2 text-primary"></i>Tipo:</strong>
+                            <p class="mb-0">
+                                @if (usuario.IsGestor)
+                                {
+                                    <span class="badge bg-warning">Gestor</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Usuário</span>
+                                }
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <strong><i class="fas fa-clipboard-list me-2 text-primary"></i>Total de Registros:</strong>
+                            <p class="mb-0"><span class="badge bg-info">@Model.Count</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 }
 
-<p>
-    <a asp-action="Create" asp-route-usuarioId="@usuario?.Id">Criar Novo Registro</a>
-</p>
+@if (Model == null || !Model.Any())
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="empty-state">
+                <i class="fas fa-clipboard-list"></i>
+                <h3>Nenhum registro encontrado</h3>
+                <p>Este usuário ainda não possui registros de estresse.</p>
+                @if (usuario != null)
+                {
+                    <a asp-action="Create" asp-route-usuarioId="@usuario.Id" class="btn btn-success">
+                        <i class="fas fa-plus me-2"></i>Criar Primeiro Registro
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nível de Estresse</th>
+                            <th>Observações</th>
+                            <th>Data</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            var stressColor = item.NivelEstresse switch
+                            {
+                                1 => "success",
+                                2 => "info",
+                                3 => "warning",
+                                4 => "warning",
+                                5 => "danger",
+                                _ => "secondary"
+                            };
+                            
+                            <tr>
+                                <td><strong>#@item.Id</strong></td>
+                                <td>
+                                    <span class="badge bg-@stressColor">
+                                        <i class="fas fa-thermometer-half me-1"></i>
+                                        Nível @item.NivelEstresse
+                                    </span>
+                                </td>
+                                <td>
+                                    @if (string.IsNullOrEmpty(item.Observacoes))
+                                    {
+                                        <span class="text-muted"><i class="fas fa-minus"></i></span>
+                                    }
+                                    else
+                                    {
+                                        <span title="@item.Observacoes">
+                                            @(item.Observacoes.Length > 50 ? item.Observacoes.Substring(0, 50) + "..." : item.Observacoes)
+                                        </span>
+                                    }
+                                </td>
+                                <td>
+                                    <i class="fas fa-calendar me-2 text-secondary"></i>
+                                    @item.Data.ToString("dd/MM/yyyy HH:mm")
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info" title="Detalhes">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" asp-route-usuarioId="@item.UsuarioId" class="btn btn-sm btn-danger" title="Excluir">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
 
-<table>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nível de Estresse</th>
-            <th>Observações</th>
-            <th>Data</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.NivelEstresse</td>
-                <td>@(item.Observacoes ?? "-")</td>
-                <td>@item.Data.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id" asp-route-usuarioId="@item.UsuarioId">Excluir</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<div>
-    <a asp-controller="Usuario" asp-action="Details" asp-route-id="@usuario?.Id">Voltar para Usuário</a> |
-    <a asp-action="Index">Ver Todos os Registros</a>
+<div class="mt-4">
+    @if (usuario != null)
+    {
+        <a asp-controller="Usuario" asp-action="Details" asp-route-id="@usuario.Id" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left me-2"></i>Voltar para Usuário
+        </a>
+    }
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="fas fa-list me-2"></i>Ver Todos os Registros
+    </a>
 </div>
-

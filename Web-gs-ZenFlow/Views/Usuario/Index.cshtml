@@ -4,45 +4,118 @@
     ViewData["Title"] = "Usuários";
 }
 
-<h1>Usuários</h1>
+<div class="page-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1><i class="fas fa-users me-2"></i>Usuários</h1>
+            <p>Gerenciar usuários do sistema</p>
+        </div>
+        <div>
+            <a asp-action="Create" class="btn btn-light">
+                <i class="fas fa-user-plus me-2"></i>Novo Usuário
+            </a>
+            <a asp-action="Login" class="btn btn-outline-light">
+                <i class="fas fa-sign-in-alt me-2"></i>Login
+            </a>
+        </div>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Criar Novo</a> | 
-    <a asp-action="Login">Login</a>
-</p>
-
-<table>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nome Completo</th>
-            <th>Email</th>
-            <th>CPF</th>
-            <th>Data Nascimento</th>
-            <th>Gestor</th>
-            <th>Ativo</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.NomeCompleto</td>
-                <td>@item.Email</td>
-                <td>@item.Cpf</td>
-                <td>@item.DataNascimento.ToString("dd/MM/yyyy")</td>
-                <td>@(item.IsGestor ? "Sim" : "Não")</td>
-                <td>@(item.Ativo ? "Sim" : "Não")</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-                    <a asp-action="AlterarEmail" asp-route-id="@item.Id">Alterar Email</a> |
-                    <a asp-action="AlterarSenha" asp-route-id="@item.Id">Alterar Senha</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+@if (Model == null || !Model.Any())
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="empty-state">
+                <i class="fas fa-users"></i>
+                <h3>Nenhum usuário encontrado</h3>
+                <p>Comece criando seu primeiro usuário.</p>
+                <a asp-action="Create" class="btn btn-primary">
+                    <i class="fas fa-user-plus me-2"></i>Criar Usuário
+                </a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome Completo</th>
+                            <th>Email</th>
+                            <th>CPF</th>
+                            <th>Data Nascimento</th>
+                            <th>Gestor</th>
+                            <th>Status</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><strong>#@item.Id</strong></td>
+                                <td>
+                                    <i class="fas fa-user me-2 text-primary"></i>
+                                    @item.NomeCompleto
+                                </td>
+                                <td>
+                                    <i class="fas fa-envelope me-2 text-secondary"></i>
+                                    @item.Email
+                                </td>
+                                <td>@item.Cpf</td>
+                                <td>@item.DataNascimento.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @if (item.IsGestor)
+                                    {
+                                        <span class="badge bg-warning">
+                                            <i class="fas fa-crown me-1"></i>Sim
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Não</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Ativo)
+                                    {
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check-circle me-1"></i>Ativo
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+                                            <i class="fas fa-times-circle me-1"></i>Inativo
+                                        </span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info" title="Detalhes">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="AlterarEmail" asp-route-id="@item.Id" class="btn btn-sm btn-warning" title="Alterar Email">
+                                            <i class="fas fa-envelope"></i>
+                                        </a>
+                                        <a asp-action="AlterarSenha" asp-route-id="@item.Id" class="btn btn-sm btn-secondary" title="Alterar Senha">
+                                            <i class="fas fa-key"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger" title="Excluir">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}

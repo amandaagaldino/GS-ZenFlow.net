@@ -1,20 +1,120 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">GS - ZenFlow</h1>
-    <p>Sistema de Gerenciamento de Usuários e Registros</p>
-    
-    <div>
-        <h2>Menu Principal</h2>
-        <p>
-            <a asp-controller="Usuario" asp-action="Index">Gerenciar Usuários</a> |
-            <a asp-controller="Registro" asp-action="Index">Gerenciar Registros</a>
+<div class="page-header">
+    <h1><i class="fas fa-leaf me-2"></i>GS ZenFlow</h1>
+    <p>Sistema de Gerenciamento de Usuários e Registros de Estresse</p>
+</div>
+
+<!-- Cards de Ação -->
+<div class="row g-4 mb-5">
+    <!-- Card Usuários -->
+    <div class="col-md-4">
+        <div class="action-card">
+            <div class="action-card-icon bg-primary">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="action-card-body">
+                <h5 class="action-card-title">Gerenciar Usuários</h5>
+                <p class="action-card-description">Cadastre, visualize, edite e gerencie os usuários do sistema.</p>
+                <a asp-controller="Usuario" asp-action="Index" class="btn btn-primary action-card-btn">
+                    Acessar <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Registros -->
+    <div class="col-md-4">
+        <div class="action-card">
+            <div class="action-card-icon bg-success">
+                <i class="fas fa-clipboard-list"></i>
+            </div>
+            <div class="action-card-body">
+                <h5 class="action-card-title">Gerenciar Registros</h5>
+                <p class="action-card-description">Visualize e gerencie os registros de estresse dos usuários.</p>
+                <a asp-controller="Registro" asp-action="Index" class="btn btn-success action-card-btn">
+                    Acessar <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card + Ações -->
+    <div class="col-md-4">
+        <div class="action-card">
+            <div class="action-card-icon bg-info">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div class="action-card-body">
+                <h5 class="action-card-title">Ações Rápidas</h5>
+                <p class="action-card-description">Acesso rápido para criar usuário ou fazer login no sistema.</p>
+                <div class="d-grid gap-2">
+                    <a asp-controller="Usuario" asp-action="Create" class="btn btn-info action-card-btn">
+                        Criar Usuário <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                    <a asp-controller="Usuario" asp-action="Login" class="btn btn-outline-info action-card-btn">
+                        Login <i class="fas fa-sign-in-alt ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Informações do Sistema -->
+<div class="card system-info-card">
+    <div class="card-body">
+        <div class="d-flex align-items-center mb-3">
+            <div class="system-info-icon bg-primary">
+                <i class="fas fa-info-circle"></i>
+            </div>
+            <h4 class="mb-0 ms-3">Informações do Sistema</h4>
+        </div>
+        
+        <p class="system-info-description">
+            O <strong>GS ZenFlow</strong> é um projeto que visa promover o bem-estar e gerenciamento de estresse dos trabalhadores. 
+            A aplicação desenvolvida em C# gerencia, como foco principal, o CRUD (Create, Read, Update, Delete) de usuários e 
+            registros de níveis de estresse, permitindo um acompanhamento eficiente do bem-estar dos usuários.
         </p>
-        <p>
-            <a asp-controller="Usuario" asp-action="Create">Criar Novo Usuário</a> |
-            <a asp-controller="Usuario" asp-action="Login">Login</a>
-        </p>
+
+        <div class="row mt-4">
+            <!-- Funcionalidades -->
+            <div class="col-md-6">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="feature-icon bg-primary">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h5 class="mb-0 ms-2">Funcionalidades Disponíveis</h5>
+                </div>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check text-success me-2"></i>CRUD completo de Usuários</li>
+                    <li><i class="fas fa-check text-success me-2"></i>CRUD completo de Registros</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Validações de formulários</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Interface responsiva</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Sistema de login</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Gerenciamento de níveis de estresse</li>
+                </ul>
+            </div>
+
+            <!-- Tecnologias -->
+            <div class="col-md-6">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="feature-icon bg-success">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h5 class="mb-0 ms-2">Tecnologias Utilizadas</h5>
+                </div>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check text-success me-2"></i>ASP.NET Core 8.0</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Entity Framework Core</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Oracle Database</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Bootstrap 5</li>
+                    <li><i class="fas fa-check text-success me-2"></i>MVC Pattern</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Font Awesome Icons</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>

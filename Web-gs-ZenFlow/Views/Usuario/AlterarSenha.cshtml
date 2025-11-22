@@ -4,30 +4,52 @@
     ViewData["Title"] = "Alterar Senha";
 }
 
-<h1>Alterar Senha</h1>
+<div class="page-header">
+    <h1><i class="fas fa-key me-2"></i>Alterar Senha</h1>
+</div>
 
-<form asp-action="AlterarSenha" asp-route-id="@ViewBag.UsuarioId">
-    <div asp-validation-summary="ModelOnly"></div>
-    
-    <div>
-        <label asp-for="SenhaAtual"></label>
-        <input asp-for="SenhaAtual" type="password" />
-        <span asp-validation-for="SenhaAtual"></span>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-lock me-2"></i>Nova Senha</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="AlterarSenha" asp-route-id="@ViewBag.UsuarioId">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="SenhaAtual" class="form-label"></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input asp-for="SenhaAtual" type="password" class="form-control" placeholder="Digite sua senha atual" />
+                        </div>
+                        <span asp-validation-for="SenhaAtual" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="NovaSenha" class="form-label"></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            <input asp-for="NovaSenha" type="password" class="form-control" placeholder="Digite a nova senha (mínimo 6 caracteres)" />
+                        </div>
+                        <span asp-validation-for="NovaSenha" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Details" asp-route-id="@ViewBag.UsuarioId" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-2"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-secondary">
+                            <i class="fas fa-save me-2"></i>Alterar Senha
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    
-    <div>
-        <label asp-for="NovaSenha"></label>
-        <input asp-for="NovaSenha" type="password" />
-        <span asp-validation-for="NovaSenha"></span>
-    </div>
-    
-    <div>
-        <input type="submit" value="Alterar" />
-        <a asp-action="Details" asp-route-id="@ViewBag.UsuarioId">Cancelar</a>
-    </div>
-</form>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

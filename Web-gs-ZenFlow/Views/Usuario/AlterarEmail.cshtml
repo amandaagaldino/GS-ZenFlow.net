@@ -4,24 +4,43 @@
     ViewData["Title"] = "Alterar Email";
 }
 
-<h1>Alterar Email</h1>
+<div class="page-header">
+    <h1><i class="fas fa-envelope me-2"></i>Alterar Email</h1>
+</div>
 
-<form asp-action="AlterarEmail" asp-route-id="@ViewBag.UsuarioId">
-    <div asp-validation-summary="ModelOnly"></div>
-    
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Novo Email</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="AlterarEmail" asp-route-id="@ViewBag.UsuarioId">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            <input asp-for="Email" type="email" class="form-control" placeholder="novo@email.com" />
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Details" asp-route-id="@ViewBag.UsuarioId" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-2"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save me-2"></i>Alterar Email
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    
-    <div>
-        <input type="submit" value="Alterar" />
-        <a asp-action="Details" asp-route-id="@ViewBag.UsuarioId">Cancelar</a>
-    </div>
-</form>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

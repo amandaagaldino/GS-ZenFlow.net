@@ -4,38 +4,107 @@
     ViewData["Title"] = "Registros";
 }
 
-<h1>Registros</h1>
+<div class="page-header" style="background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1><i class="fas fa-clipboard-list me-2"></i>Registros de Estresse</h1>
+            <p>Gerenciar registros do sistema</p>
+        </div>
+        <div>
+            <a asp-action="Create" class="btn btn-light">
+                <i class="fas fa-plus me-2"></i>Novo Registro
+            </a>
+        </div>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Criar Novo</a>
-</p>
-
-<table>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Usuário</th>
-            <th>Nível de Estresse</th>
-            <th>Observações</th>
-            <th>Data</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.UsuarioNome</td>
-                <td>@item.NivelEstresse</td>
-                <td>@(item.Observacoes ?? "-")</td>
-                <td>@item.Data.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id" asp-route-usuarioId="@item.UsuarioId">Excluir</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+@if (Model == null || !Model.Any())
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="empty-state">
+                <i class="fas fa-clipboard-list"></i>
+                <h3>Nenhum registro encontrado</h3>
+                <p>Comece criando seu primeiro registro de estresse.</p>
+                <a asp-action="Create" class="btn btn-success">
+                    <i class="fas fa-plus me-2"></i>Criar Registro
+                </a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuário</th>
+                            <th>Nível de Estresse</th>
+                            <th>Observações</th>
+                            <th>Data</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            var stressColor = item.NivelEstresse switch
+                            {
+                                1 => "success",
+                                2 => "info",
+                                3 => "warning",
+                                4 => "warning",
+                                5 => "danger",
+                                _ => "secondary"
+                            };
+                            
+                            <tr>
+                                <td><strong>#@item.Id</strong></td>
+                                <td>
+                                    <i class="fas fa-user me-2 text-primary"></i>
+                                    @item.UsuarioNome
+                                </td>
+                                <td>
+                                    <span class="badge bg-@stressColor">
+                                        <i class="fas fa-thermometer-half me-1"></i>
+                                        Nível @item.NivelEstresse
+                                    </span>
+                                </td>
+                                <td>
+                                    @if (string.IsNullOrEmpty(item.Observacoes))
+                                    {
+                                        <span class="text-muted"><i class="fas fa-minus"></i></span>
+                                    }
+                                    else
+                                    {
+                                        <span title="@item.Observacoes">
+                                            @(item.Observacoes.Length > 50 ? item.Observacoes.Substring(0, 50) + "..." : item.Observacoes)
+                                        </span>
+                                    }
+                                </td>
+                                <td>
+                                    <i class="fas fa-calendar me-2 text-secondary"></i>
+                                    @item.Data.ToString("dd/MM/yyyy HH:mm")
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info" title="Detalhes">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" asp-route-usuarioId="@item.UsuarioId" class="btn btn-sm btn-danger" title="Excluir">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}

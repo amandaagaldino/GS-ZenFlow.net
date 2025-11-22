@@ -2,31 +2,89 @@
 
 @{
     ViewData["Title"] = "Detalhes do Registro";
+    var stressColor = Model.NivelEstresse switch
+    {
+        1 => "success",
+        2 => "info",
+        3 => "warning",
+        4 => "warning",
+        5 => "danger",
+        _ => "secondary"
+    };
+    var stressText = Model.NivelEstresse switch
+    {
+        1 => "Muito Baixo",
+        2 => "Baixo",
+        3 => "Moderado",
+        4 => "Alto",
+        5 => "Muito Alto",
+        _ => "Desconhecido"
+    };
 }
 
-<h1>Detalhes do Registro</h1>
-
-<div>
-    <dl>
-        <dt>Id</dt>
-        <dd>@Model.Id</dd>
-        
-        <dt>Usuário</dt>
-        <dd>@Model.UsuarioNome</dd>
-        
-        <dt>Nível de Estresse</dt>
-        <dd>@Model.NivelEstresse</dd>
-        
-        <dt>Observações</dt>
-        <dd>@(Model.Observacoes ?? "-")</dd>
-        
-        <dt>Data</dt>
-        <dd>@Model.Data.ToString("dd/MM/yyyy HH:mm")</dd>
-    </dl>
+<div class="page-header" style="background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);">
+    <h1><i class="fas fa-clipboard-list me-2"></i>Detalhes do Registro</h1>
 </div>
 
-<div>
-    <a asp-action="Delete" asp-route-id="@Model.Id" asp-route-usuarioId="@Model.UsuarioId">Excluir</a> |
-    <a asp-action="Index">Voltar para Lista</a>
-</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Informações do Registro</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4"><i class="fas fa-hashtag me-2 text-primary"></i>ID:</dt>
+                    <dd class="col-sm-8"><strong>#@Model.Id</strong></dd>
 
+                    <dt class="col-sm-4"><i class="fas fa-user me-2 text-primary"></i>Usuário:</dt>
+                    <dd class="col-sm-8">@Model.UsuarioNome</dd>
+
+                    <dt class="col-sm-4"><i class="fas fa-thermometer-half me-2 text-primary"></i>Nível de Estresse:</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge bg-@stressColor fs-6">
+                            <i class="fas fa-thermometer-half me-1"></i>
+                            Nível @Model.NivelEstresse - @stressText
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-4"><i class="fas fa-comment me-2 text-primary"></i>Observações:</dt>
+                    <dd class="col-sm-8">
+                        @if (string.IsNullOrEmpty(Model.Observacoes))
+                        {
+                            <span class="text-muted"><i class="fas fa-minus"></i> Sem observações</span>
+                        }
+                        else
+                        {
+                            @Model.Observacoes
+                        }
+                    </dd>
+
+                    <dt class="col-sm-4"><i class="fas fa-calendar me-2 text-primary"></i>Data:</dt>
+                    <dd class="col-sm-8">@Model.Data.ToString("dd/MM/yyyy HH:mm")</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-cog me-2"></i>Ações</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a asp-action="Delete" asp-route-id="@Model.Id" asp-route-usuarioId="@Model.UsuarioId" class="btn btn-danger">
+                        <i class="fas fa-trash me-2"></i>Excluir Registro
+                    </a>
+                    <hr>
+                    <a asp-controller="Usuario" asp-action="Details" asp-route-id="@Model.UsuarioId" class="btn btn-outline-primary">
+                        <i class="fas fa-user me-2"></i>Ver Usuário
+                    </a>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Voltar para Lista
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
