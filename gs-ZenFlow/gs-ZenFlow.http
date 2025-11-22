@@ -1,0 +1,6 @@
+@gs_ZenFlow_HostAddress = http://localhost:5281
+
+GET {{gs_ZenFlow_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
