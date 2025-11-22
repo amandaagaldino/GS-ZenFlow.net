@@ -1,0 +1,57 @@
+@model Web_gs_ZenFlow.Application.DTOs.Usuario.CreateUsuarioDto
+
+@{
+    ViewData["Title"] = "Criar Usuário";
+}
+
+<h1>Criar Usuário</h1>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly"></div>
+    
+    <div>
+        <label asp-for="NomeCompleto"></label>
+        <input asp-for="NomeCompleto" />
+        <span asp-validation-for="NomeCompleto"></span>
+    </div>
+    
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    
+    <div>
+        <label asp-for="Senha"></label>
+        <input asp-for="Senha" type="password" />
+        <span asp-validation-for="Senha"></span>
+    </div>
+    
+    <div>
+        <label asp-for="DataNascimento"></label>
+        <input asp-for="DataNascimento" type="date" />
+        <span asp-validation-for="DataNascimento"></span>
+    </div>
+    
+    <div>
+        <label asp-for="Cpf"></label>
+        <input asp-for="Cpf" />
+        <span asp-validation-for="Cpf"></span>
+    </div>
+    
+    <div>
+        <label asp-for="IsGestor"></label>
+        <input asp-for="IsGestor" type="checkbox" />
+        <span asp-validation-for="IsGestor"></span>
+    </div>
+    
+    <div>
+        <input type="submit" value="Criar" />
+        <a asp-action="Index">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

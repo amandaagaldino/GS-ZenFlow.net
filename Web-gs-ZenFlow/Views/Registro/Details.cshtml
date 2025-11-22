@@ -1,0 +1,32 @@
+@model Web_gs_ZenFlow.Application.DTOs.Registro.RegistroResponseDto
+
+@{
+    ViewData["Title"] = "Detalhes do Registro";
+}
+
+<h1>Detalhes do Registro</h1>
+
+<div>
+    <dl>
+        <dt>Id</dt>
+        <dd>@Model.Id</dd>
+        
+        <dt>Usuário</dt>
+        <dd>@Model.UsuarioNome</dd>
+        
+        <dt>Nível de Estresse</dt>
+        <dd>@Model.NivelEstresse</dd>
+        
+        <dt>Observações</dt>
+        <dd>@(Model.Observacoes ?? "-")</dd>
+        
+        <dt>Data</dt>
+        <dd>@Model.Data.ToString("dd/MM/yyyy HH:mm")</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Delete" asp-route-id="@Model.Id" asp-route-usuarioId="@Model.UsuarioId">Excluir</a> |
+    <a asp-action="Index">Voltar para Lista</a>
+</div>
+

@@ -1,0 +1,41 @@
+@model List<Web_gs_ZenFlow.Application.DTOs.Registro.RegistroResponseDto>
+
+@{
+    ViewData["Title"] = "Registros";
+}
+
+<h1>Registros</h1>
+
+<p>
+    <a asp-action="Create">Criar Novo</a>
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Usuário</th>
+            <th>Nível de Estresse</th>
+            <th>Observações</th>
+            <th>Data</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.UsuarioNome</td>
+                <td>@item.NivelEstresse</td>
+                <td>@(item.Observacoes ?? "-")</td>
+                <td>@item.Data.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" asp-route-usuarioId="@item.UsuarioId">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

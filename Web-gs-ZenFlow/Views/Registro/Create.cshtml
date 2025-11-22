@@ -1,0 +1,55 @@
+@model Web_gs_ZenFlow.Application.DTOs.Registro.CreateRegistroDto
+
+@{
+    ViewData["Title"] = "Criar Registro";
+}
+
+<h1>Criar Registro</h1>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly"></div>
+    
+    @if (ViewBag.UsuarioId != null)
+    {
+        <div>
+            <label>Usuário</label>
+            <input type="text" value="@ViewBag.UsuarioNome" readonly />
+            <input type="hidden" name="usuarioId" value="@ViewBag.UsuarioId" />
+        </div>
+    }
+    else
+    {
+        <div>
+            <label>Usuário</label>
+            <select name="usuarioId" required>
+                <option value="">Selecione um usuário</option>
+                @foreach (var usuario in (List<Web_gs_ZenFlow.Application.DTOs.Usuario.UsuarioResponseDto>)ViewBag.Usuarios)
+                {
+                    <option value="@usuario.Id">@usuario.NomeCompleto</option>
+                }
+            </select>
+        </div>
+    }
+    
+    <div>
+        <label asp-for="NivelEstresse"></label>
+        <input asp-for="NivelEstresse" type="number" min="1" max="5" />
+        <span asp-validation-for="NivelEstresse"></span>
+    </div>
+    
+    <div>
+        <label asp-for="Observacoes"></label>
+        <textarea asp-for="Observacoes"></textarea>
+        <span asp-validation-for="Observacoes"></span>
+    </div>
+    
+    <div>
+        <input type="submit" value="Criar" />
+        <a asp-action="Index">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

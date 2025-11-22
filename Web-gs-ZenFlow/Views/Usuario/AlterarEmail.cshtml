@@ -1,0 +1,27 @@
+@model Web_gs_ZenFlow.Application.DTOs.Usuario.AlterarEmailDto
+
+@{
+    ViewData["Title"] = "Alterar Email";
+}
+
+<h1>Alterar Email</h1>
+
+<form asp-action="AlterarEmail" asp-route-id="@ViewBag.UsuarioId">
+    <div asp-validation-summary="ModelOnly"></div>
+    
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    
+    <div>
+        <input type="submit" value="Alterar" />
+        <a asp-action="Details" asp-route-id="@ViewBag.UsuarioId">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

@@ -1,0 +1,32 @@
+@model Web_gs_ZenFlow.Application.DTOs.Registro.RegistroResponseDto
+
+@{
+    ViewData["Title"] = "Excluir Registro";
+}
+
+<h1>Excluir Registro</h1>
+
+<h3>Tem certeza que deseja excluir este registro?</h3>
+<div>
+    <dl>
+        <dt>Id</dt>
+        <dd>@Model.Id</dd>
+        
+        <dt>Usuário</dt>
+        <dd>@Model.UsuarioNome</dd>
+        
+        <dt>Nível de Estresse</dt>
+        <dd>@Model.NivelEstresse</dd>
+        
+        <dt>Data</dt>
+        <dd>@Model.Data.ToString("dd/MM/yyyy HH:mm")</dd>
+    </dl>
+    
+    <form asp-action="Delete" asp-route-usuarioId="@ViewBag.UsuarioId">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" name="usuarioId" value="@ViewBag.UsuarioId" />
+        <input type="submit" value="Excluir" />
+        <a asp-action="Index">Cancelar</a>
+    </form>
+</div>
+

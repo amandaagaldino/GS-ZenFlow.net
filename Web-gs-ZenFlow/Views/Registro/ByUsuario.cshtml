@@ -1,0 +1,53 @@
+@model List<Web_gs_ZenFlow.Application.DTOs.Registro.RegistroResponseDto>
+
+@{
+    ViewData["Title"] = "Registros do Usuário";
+    var usuario = ViewBag.Usuario as Web_gs_ZenFlow.Application.DTOs.Usuario.UsuarioResponseDto;
+}
+
+<h1>Registros do Usuário</h1>
+
+@if (usuario != null)
+{
+    <div>
+        <h3>@usuario.NomeCompleto</h3>
+        <p>Email: @usuario.Email</p>
+    </div>
+}
+
+<p>
+    <a asp-action="Create" asp-route-usuarioId="@usuario?.Id">Criar Novo Registro</a>
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nível de Estresse</th>
+            <th>Observações</th>
+            <th>Data</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.NivelEstresse</td>
+                <td>@(item.Observacoes ?? "-")</td>
+                <td>@item.Data.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" asp-route-usuarioId="@item.UsuarioId">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Usuario" asp-action="Details" asp-route-id="@usuario?.Id">Voltar para Usuário</a> |
+    <a asp-action="Index">Ver Todos os Registros</a>
+</div>
+

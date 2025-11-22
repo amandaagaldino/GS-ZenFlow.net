@@ -1,0 +1,48 @@
+@model List<Web_gs_ZenFlow.Application.DTOs.Usuario.UsuarioResponseDto>
+
+@{
+    ViewData["Title"] = "Usuários";
+}
+
+<h1>Usuários</h1>
+
+<p>
+    <a asp-action="Create">Criar Novo</a> | 
+    <a asp-action="Login">Login</a>
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome Completo</th>
+            <th>Email</th>
+            <th>CPF</th>
+            <th>Data Nascimento</th>
+            <th>Gestor</th>
+            <th>Ativo</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.NomeCompleto</td>
+                <td>@item.Email</td>
+                <td>@item.Cpf</td>
+                <td>@item.DataNascimento.ToString("dd/MM/yyyy")</td>
+                <td>@(item.IsGestor ? "Sim" : "Não")</td>
+                <td>@(item.Ativo ? "Sim" : "Não")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                    <a asp-action="AlterarEmail" asp-route-id="@item.Id">Alterar Email</a> |
+                    <a asp-action="AlterarSenha" asp-route-id="@item.Id">Alterar Senha</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

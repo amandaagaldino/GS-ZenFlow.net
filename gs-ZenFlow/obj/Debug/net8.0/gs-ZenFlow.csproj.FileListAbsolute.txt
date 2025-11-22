@@ -125,3 +125,4 @@
 /Users/amandagaldino/gs-ZenFlow/gs-ZenFlow/bin/Debug/net8.0/runtimes/osx/lib/net8.0/System.DirectoryServices.Protocols.dll
 /Users/amandagaldino/gs-ZenFlow/gs-ZenFlow/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.DirectoryServices.Protocols.dll
 /Users/amandagaldino/gs-ZenFlow/gs-ZenFlow/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Security.Cryptography.Pkcs.dll
+/Users/amandagaldino/gs-ZenFlow/gs-ZenFlow/obj/Debug/net8.0/gs-ZenFlow.sourcelink.json
