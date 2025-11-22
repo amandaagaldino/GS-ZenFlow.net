@@ -85,7 +85,16 @@ public class Program
             });
         }
 
-        app.UseHttpsRedirection();
+        // Aplicar redirecionamento HTTPS apenas se houver porta HTTPS configurada
+        // Isso evita o aviso quando a aplicação roda apenas em HTTP
+        var urls = Environment.GetEnvironmentVariable("ASPNETCORE_URLS") ?? "";
+        var httpsPort = Environment.GetEnvironmentVariable("ASPNETCORE_HTTPS_PORT");
+        var hasHttps = !string.IsNullOrEmpty(httpsPort) || urls.Contains("https://", StringComparison.OrdinalIgnoreCase);
+        
+        if (hasHttps)
+        {
+            app.UseHttpsRedirection();
+        }
 
         app.UseCors();
 
