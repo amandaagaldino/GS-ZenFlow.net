@@ -443,10 +443,12 @@ Armazena os registros de estresse dos usuários.
 
 ---
 
-## 👤 Desenvolvedor
+## 👤 Desenvolvedores
 
-**Amanda Galdino**
-- Email: RM560066@fiap.com.br
-- RM: 560066
+| Nome               | RM     |
+| ------------------ | ------ |
+| Amanda Galdino     | 560066 |
+| Bruno Cantacini    | 560242 |
+| Gustavo Gonçalves | 556823 |
 
 Este projeto foi desenvolvido para a Global Solution da FIAP.
