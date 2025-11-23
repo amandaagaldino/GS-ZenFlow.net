@@ -95,6 +95,36 @@ public class RegistroUseCase : IRegistroUseCase
         }).ToList();
     }
 
+    public async Task<RegistroResponseDto> UpdateRegistroAsync(int id, int usuarioId, UpdateRegistroDto dto)
+    {
+        var registro = await _registroRepository.GetByIdAsync(id);
+        if (registro == null)
+            throw new InvalidOperationException("Registro não encontrado");
+
+        var usuario = await _usuarioRepository.GetByIdAsync(usuarioId);
+        if (usuario == null)
+            throw new InvalidOperationException("Usuário não encontrado");
+
+        // Gestores podem atualizar qualquer registro, usuários comuns só os próprios
+        if (!usuario.IsGestor && registro.UsuarioId != usuarioId)
+            throw new UnauthorizedAccessException("Você não tem permissão para atualizar este registro");
+
+        registro.Atualizar(dto.NivelEstresse, dto.Observacoes);
+        var registroAtualizado = await _registroRepository.UpdateAsync(registro);
+
+        var usuarioRegistro = await _usuarioRepository.GetByIdAsync(registroAtualizado.UsuarioId);
+
+        return new RegistroResponseDto
+        {
+            Id = registroAtualizado.Id,
+            UsuarioId = registroAtualizado.UsuarioId,
+            UsuarioNome = usuarioRegistro?.NomeCompleto ?? string.Empty,
+            NivelEstresse = registroAtualizado.NivelEstresse,
+            Observacoes = registroAtualizado.Observacoes,
+            Data = registroAtualizado.Data
+        };
+    }
+
     public async Task DeleteRegistroAsync(int id, int usuarioId)
     {
         var registro = await _registroRepository.GetByIdAsync(id);

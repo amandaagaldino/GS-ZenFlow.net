@@ -34,4 +34,14 @@ public class Registro
         Ativo = false;
         DataAtualizacao = DateTime.UtcNow;
     }
+
+    public void Atualizar(int nivelEstresse, string? observacoes = null)
+    {
+        if (nivelEstresse < 1 || nivelEstresse > 5)
+            throw new ArgumentException("Nível de estresse deve estar entre 1 e 5", nameof(nivelEstresse));
+
+        NivelEstresse = nivelEstresse;
+        Observacoes = observacoes;
+        DataAtualizacao = DateTime.UtcNow;
+    }
 }

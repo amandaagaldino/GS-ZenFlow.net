@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/amandagaldino/gs-ZenFlow/gs-ZenFlow/gs-ZenFlow.csproj": {}
+    "/Users/amandagaldino/Desktop/aaaaaaaaaa/GS-ZenFlow.net/gs-ZenFlow/gs-ZenFlow.csproj": {}
   },
   "projects": {
-    "/Users/amandagaldino/gs-ZenFlow/gs-ZenFlow/gs-ZenFlow.csproj": {
+    "/Users/amandagaldino/Desktop/aaaaaaaaaa/GS-ZenFlow.net/gs-ZenFlow/gs-ZenFlow.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/amandagaldino/gs-ZenFlow/gs-ZenFlow/gs-ZenFlow.csproj",
+        "projectUniqueName": "/Users/amandagaldino/Desktop/aaaaaaaaaa/GS-ZenFlow.net/gs-ZenFlow/gs-ZenFlow.csproj",
         "projectName": "gs-ZenFlow",
-        "projectPath": "/Users/amandagaldino/gs-ZenFlow/gs-ZenFlow/gs-ZenFlow.csproj",
+        "projectPath": "/Users/amandagaldino/Desktop/aaaaaaaaaa/GS-ZenFlow.net/gs-ZenFlow/gs-ZenFlow.csproj",
         "packagesPath": "/Users/amandagaldino/.nuget/packages/",
-        "outputPath": "/Users/amandagaldino/gs-ZenFlow/gs-ZenFlow/obj/",
+        "outputPath": "/Users/amandagaldino/Desktop/aaaaaaaaaa/GS-ZenFlow.net/gs-ZenFlow/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/amandagaldino/.nuget/NuGet/NuGet.Config"

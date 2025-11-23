@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "tUobi7zKvgI=",
+  "dgSpecHash": "ylKdGPasZ0E=",
   "success": true,
-  "projectFilePath": "/Users/amandagaldino/gs-ZenFlow/gs-ZenFlow/gs-ZenFlow.csproj",
+  "projectFilePath": "/Users/amandagaldino/Desktop/aaaaaaaaaa/GS-ZenFlow.net/gs-ZenFlow/gs-ZenFlow.csproj",
   "expectedPackageFiles": [
     "/Users/amandagaldino/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/Users/amandagaldino/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

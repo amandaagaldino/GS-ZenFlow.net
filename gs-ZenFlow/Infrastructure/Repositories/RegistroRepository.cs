@@ -52,6 +52,13 @@ public class RegistroRepository : IRegistroRepository
         
     }
 
+    public async Task<Registro> UpdateAsync(Registro registro)
+    {
+        _context.Registros.Update(registro);
+        await _context.SaveChangesAsync();
+        return registro;
+    }
+
     public async Task<bool> ExistsAsync(int id)
     {
         return await _context.Registros

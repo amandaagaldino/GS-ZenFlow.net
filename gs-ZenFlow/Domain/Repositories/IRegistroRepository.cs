@@ -9,6 +9,7 @@ public interface IRegistroRepository
     Task<List<Registro>> GetAllAsync();
     Task<List<Registro>> GetByUsuarioIdAsync(int usuarioId);
     Task DeleteAsync(Registro registro);
+    Task<Registro> UpdateAsync(Registro registro);
     Task<List<Registro>> GetByDateRangeAsync(DateTime dataInicio, DateTime dataFim);
     Task<List<Registro>> GetByUsuarioIdAndDateRangeAsync(int usuarioId, DateTime dataInicio, DateTime dataFim);
 }

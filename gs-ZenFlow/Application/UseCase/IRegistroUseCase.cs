@@ -8,5 +8,6 @@ public interface IRegistroUseCase
     Task<RegistroResponseDto?> GetRegistroByIdAsync(int id);
     Task<List<RegistroResponseDto>> GetAllRegistrosAsync();
     Task<List<RegistroResponseDto>> GetRegistrosByUsuarioIdAsync(int usuarioId);
+    Task<RegistroResponseDto> UpdateRegistroAsync(int id, int usuarioId, UpdateRegistroDto dto);
     Task DeleteRegistroAsync(int id, int usuarioId);
 }

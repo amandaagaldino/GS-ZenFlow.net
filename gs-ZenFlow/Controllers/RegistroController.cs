@@ -97,6 +97,47 @@ public class RegistroController : ControllerBase
         }
     }
     
+    [HttpPut("{id}/usuario/{usuarioId}")]
+    [SwaggerOperation(Summary = "Atualizar registro de estresse", Description = "Atualiza um registro de estresse existente")]
+    [ProducesResponseType(typeof(RegistroResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Update(int id, int usuarioId, [FromBody] UpdateRegistroDto dto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        
+        try
+        {
+            var registro = await _registroUseCase.UpdateRegistroAsync(id, usuarioId, dto);
+            return Ok(registro);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status404NotFound,
+                title: "Recurso não encontrado"
+            );
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status401Unauthorized,
+                title: "Acesso não autorizado"
+            );
+        }
+        catch (ArgumentException ex)
+        {
+            return Problem(
+                detail: ex.Message,
+                statusCode: StatusCodes.Status400BadRequest,
+                title: "Erro ao atualizar registro"
+            );
+        }
+    }
     
     [HttpDelete("{id}/usuario/{usuarioId}")]
     [SwaggerOperation(Summary = "Remover registro", Description = "Remove logicamente um registro (desativa)")]
