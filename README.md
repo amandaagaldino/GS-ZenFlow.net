@@ -8,10 +8,35 @@ O futuro do trabalho impõe grande pressão sobre a saúde mental dos colaborado
 
 O ZenFlow é uma plataforma que usa tecnologia para monitorar o bem-estar coletivo da organização. Fornece dados empáticos para a gestão tomar decisões baseadas em evidências, criando um ambiente de trabalho mais inclusivo e sustentável.
 
+A solução ZenFlow está diretamente alinhada com os Objetivos de Desenvolvimento Sustentável (ODS) da ONU, especialmente:
+
+### 🎯 ODS 8: Trabalho Decente e Crescimento Econômico
+
+Ao focar no bem-estar e na saúde mental, a solução contribui para a promoção de ambientes de trabalho seguros e saudáveis, garantindo um trabalho digno para todos. O monitoramento contínuo do estresse permite que as organizações identifiquem e resolvam problemas antes que impactem significativamente a qualidade de vida dos colaboradores.
+
+### 📚 ODS 4: Educação de Qualidade
+
+A partir dos dados coletados, a empresa pode identificar tendências e investir em programas de capacitação e workshops focados em gestão de estresse e inteligência emocional, promovendo o aprendizado ao longo da vida. O ZenFlow fornece insights valiosos que orientam o desenvolvimento de programas educacionais personalizados.
+
+### ⚖️ ODS 10: Redução das Desigualdades
+
+O anonimato garante que todos os colaboradores, independentemente do cargo ou vulnerabilidade, possam expressar suas preocupações de forma segura, criando um sistema de apoio mais inclusivo. Isso elimina barreiras hierárquicas e promove equidade no acesso a recursos de bem-estar.
+
+## 📖 Sobre o Projeto
+
+O ZenFlow é composto por duas aplicações complementares:
+
+1. **API REST (gs-ZenFlow)**: Fornece endpoints RESTful para integração com outros sistemas, com documentação Swagger completa e tratamento padronizado de erros.
+
+2. **Aplicação Web MVC (Web-gs-ZenFlow)**: Interface web amigável para gerenciamento de usuários e registros de estresse, utilizando Razor Pages e Bootstrap.
+
+Ambas as aplicações compartilham a mesma arquitetura em camadas, banco de dados Oracle e lógica de negócio, garantindo consistência e reutilização de código.
+
 ---
 
 ## 📋 Índice
 
+- [Sobre o Projeto](#-sobre-o-projeto)
 - [Tecnologias](#-tecnologias)
 - [Estrutura do Projeto](#-estrutura-do-projeto)
 - [Pré-requisitos](#-pré-requisitos)
@@ -19,52 +44,110 @@ O ZenFlow é uma plataforma que usa tecnologia para monitorar o bem-estar coleti
 - [Executando o Projeto](#-executando-o-projeto)
 - [Migrations](#-migrations)
 - [API Endpoints](#-api-endpoints)
+- [Aplicação Web MVC](#-aplicação-web-mvc)
 - [Documentação Swagger](#-documentação-swagger)
 - [Arquitetura](#-arquitetura)
+- [Banco de Dados](#-banco-de-dados)
+- [Desenvolvedor](#-desenvolvedor)
+- [Licença](#-licença)
+- [Observações Importantes](#-observações-importantes)
+- [Troubleshooting](#-troubleshooting)
 
 ---
 
 ## 🛠️ Tecnologias
 
+### Framework e Linguagem
 - **.NET 8.0** - Framework principal
-- **Entity Framework Core 8.0.22** - ORM para acesso a dados
+- **C#** - Linguagem de programação
+
+### Banco de Dados
 - **Oracle Database** - Banco de dados relacional
+- **Entity Framework Core 8.0.22** - ORM para acesso a dados
 - **Oracle.EntityFrameworkCore 8.23.26000** - Provider Oracle para EF Core
-- **Swagger/OpenAPI** - Documentação da API
+- **Oracle.ManagedDataAccess.Core 23.26.0** - Driver Oracle gerenciado
+
+### API (gs-ZenFlow)
+- **Swagger/OpenAPI 6.8.1** - Documentação interativa da API
+- **Swashbuckle.AspNetCore** - Geração de documentação Swagger
+- **Swashbuckle.AspNetCore.Annotations** - Anotações para Swagger
+- **Microsoft.AspNetCore.OpenApi 8.0.22** - Suporte OpenAPI
+
+### Aplicação Web (Web-gs-ZenFlow)
+- **ASP.NET Core MVC** - Framework web MVC
+- **Razor Pages** - Engine de views
+- **Bootstrap** - Framework CSS
+- **jQuery** - Biblioteca JavaScript
+- **jQuery Validation** - Validação client-side
+
+### Bibliotecas Compartilhadas
 - **AutoMapper 12.0.1** - Mapeamento de objetos
+- **AutoMapper.Extensions.Microsoft.DependencyInjection 12.0.1** - Integração AutoMapper com DI
 - **FluentValidation 12.1.0** - Validação de dados
+- **FluentValidation.AspNetCore 11.3.1** - Integração FluentValidation com ASP.NET Core
 
 ---
 
 ## 📁 Estrutura do Projeto
 
+O projeto é composto por duas aplicações que compartilham a mesma arquitetura e banco de dados:
+
+### 1. **gs-ZenFlow** - API Web API
+Aplicação REST API com documentação Swagger.
+
+### 2. **Web-gs-ZenFlow** - Aplicação Web MVC
+Aplicação web com interface Razor Pages para gerenciamento de usuários e registros.
+
 ```
 gs-ZenFlow/
-├── Application/              # Camada de Aplicação
-│   ├── DTOs/                 # Data Transfer Objects
-│   │   ├── Registro/
-│   │   └── Usuario/
-│   └── UseCase/              # Casos de uso da aplicação
+├── gs-ZenFlow/                    # Projeto API Web API
+│   ├── Application/              # Camada de Aplicação
+│   │   ├── DTOs/                   # Data Transfer Objects
+│   │   │   ├── Registro/
+│   │   │   └── Usuario/
+│   │   └── UseCase/                # Casos de uso da aplicação
+│   │
+│   ├── Controllers/                # Controllers da API
+│   │   ├── RegistroController.cs
+│   │   └── UsuarioController.cs
+│   │
+│   ├── Domain/                     # Camada de Domínio
+│   │   ├── Entities/               # Entidades do domínio
+│   │   │   ├── Registro.cs
+│   │   │   └── Usuario.cs
+│   │   └── Repositories/           # Interfaces dos repositórios
+│   │
+│   ├── Infrastructure/             # Camada de Infraestrutura
+│   │   ├── Data/                   # DbContext
+│   │   ├── Mappings/               # Configurações do EF Core
+│   │   ├── Migrations/             # Migrations do banco de dados
+│   │   └── Repositories/           # Implementações dos repositórios
+│   │
+│   ├── Utils/                      # Utilitários (Swagger)
+│   ├── Program.cs                  # Ponto de entrada da API
+│   └── appsettings.json            # Configurações da API
 │
-├── Controllers/              # Controllers da API
-│   ├── RegistroController.cs
-│   └── UsuarioController.cs
-│
-├── Domain/                   # Camada de Domínio
-│   ├── Entities/             # Entidades do domínio
-│   │   ├── Registro.cs
-│   │   └── Usuario.cs
-│   └── Repositories/         # Interfaces dos repositórios
-│
-├── Infrastructure/           # Camada de Infraestrutura
-│   ├── Data/                 # DbContext
-│   ├── Mappings/             # Configurações do EF Core
-│   ├── Migrations/           # Migrations do banco de dados
-│   └── Repositories/         # Implementações dos repositórios
-│
-├── Properties/               # Configurações do projeto
-├── Program.cs                # Ponto de entrada da aplicação
-└── appsettings.json          # Configurações da aplicação
+└── Web-gs-ZenFlow/                 # Projeto Web MVC
+    ├── Application/                # Camada de Aplicação
+    │   ├── DTOs/                   # Data Transfer Objects
+    │   └── UseCase/                # Casos de uso da aplicação
+    │
+    ├── Controllers/                # Controllers MVC
+    │   ├── HomeController.cs
+    │   ├── RegistroController.cs
+    │   └── UsuarioController.cs
+    │
+    ├── Domain/                     # Camada de Domínio (compartilhada)
+    ├── Infrastructure/             # Camada de Infraestrutura (compartilhada)
+    ├── Models/                     # ViewModels
+    ├── Views/                      # Views Razor
+    │   ├── Home/
+    │   ├── Registro/
+    │   ├── Usuario/
+    │   └── Shared/
+    ├── wwwroot/                    # Arquivos estáticos (CSS, JS, etc.)
+    ├── Program.cs                  # Ponto de entrada da aplicação web
+    └── appsettings.json            # Configurações da aplicação web
 ```
 
 ---
@@ -79,7 +162,7 @@ Antes de começar, certifique-se de ter instalado:
 
 ---
 
-## ⚙️ Configuração
+## 🚀 Executando o Projeto
 
 ### 1. Clone o repositório
 
@@ -90,8 +173,9 @@ cd gs-ZenFlow
 
 ### 2. Configure a String de Conexão
 
-Edite o arquivo `gs-ZenFlow/appsettings.json` e configure a string de conexão do Oracle:
+Edite os arquivos `appsettings.json` de ambos os projetos e configure a string de conexão do Oracle:
 
+**gs-ZenFlow/appsettings.json** (API):
 ```json
 {
   "ConnectionStrings": {
@@ -100,73 +184,62 @@ Edite o arquivo `gs-ZenFlow/appsettings.json` e configure a string de conexão d
 }
 ```
 
-**Exemplo:**
+**Web-gs-ZenFlow/appsettings.json** (Web MVC):
 ```json
 {
   "ConnectionStrings": {
-    "OracleDb": "User Id=rm560066;Password=100605;Data Source=oracle.fiap.com.br:1521/orcl;"
+    "OracleDb": "User Id=seu_usuario;Password=sua_senha;Data Source=servidor:porta/servico;"
   }
 }
 ```
 
-### 3. Restaure as Dependências
+### 3. Execute a Aplicação
 
-```bash
-cd gs-ZenFlow
-dotnet restore
-```
-
----
-
-## 🚀 Executando o Projeto
-
-### 1. Aplique as Migrations
-
-Primeiro, certifique-se de que o banco de dados está configurado e acessível. Em seguida, execute:
-
-```bash
-dotnet ef database update --project gs-ZenFlow/gs-ZenFlow.csproj
-```
-
-Ou, se estiver na pasta do projeto:
-
-```bash
-cd gs-ZenFlow
-dotnet ef database update
-```
-
-### 2. Execute a Aplicação
+#### Executando a API (gs-ZenFlow)
 
 ```bash
 dotnet run --project gs-ZenFlow/gs-ZenFlow.csproj
 ```
 
-Ou, se estiver na pasta do projeto:
+A API estará disponível em:
+- **HTTP**: `http://localhost:5000` (ou porta configurada)
+- **HTTPS**: `https://localhost:5001` (se configurado)
+- **Swagger**: `http://localhost:5000` (em ambiente de desenvolvimento)
+
+#### Executando a Aplicação Web (Web-gs-ZenFlow)
 
 ```bash
-cd gs-ZenFlow
-dotnet run
+dotnet run --project Web-gs-ZenFlow/Web-gs-ZenFlow.csproj
 ```
 
-A aplicação estará disponível em:
-- **HTTP**: `http://localhost:5000`
-- **HTTPS**: `https://localhost:5001`
-- **Swagger**: `http://localhost:5000` (em ambiente de desenvolvimento)
+A aplicação web estará disponível em:
+- **HTTP**: `http://localhost:5000` (ou porta configurada)
+- **HTTPS**: `https://localhost:5001` (se configurado)
 
 ---
 
 ## 🔄 Migrations
 
+As migrations estão localizadas em `gs-ZenFlow/Infrastructure/Migrations/` e podem ser gerenciadas a partir de qualquer um dos projetos.
+
 ### Criar uma Nova Migration
 
 ```bash
+# Usando o projeto API
 dotnet ef migrations add NomeDaMigration --project gs-ZenFlow/gs-ZenFlow.csproj
+
+# Ou usando o projeto Web
+dotnet ef migrations add NomeDaMigration --project Web-gs-ZenFlow/Web-gs-ZenFlow.csproj
 ```
 
 ### Aplicar Migrations ao Banco de Dados
 
 ```bash
+# Usando o projeto API
 dotnet ef database update --project gs-ZenFlow/gs-ZenFlow.csproj
+
+# Ou usando o projeto Web
+dotnet ef database update --project Web-gs-ZenFlow/Web-gs-ZenFlow.csproj
 ```
 
 ### Remover a Última Migration (antes de aplicar)
@@ -206,6 +279,32 @@ dotnet ef migrations list --project gs-ZenFlow/gs-ZenFlow.csproj
 | `GET` | `/api/Registro/{id}` | Buscar registro por ID |
 | `GET` | `/api/Registro/usuario/{usuarioId}` | Listar registros de um usuário |
 | `DELETE` | `/api/Registro/{id}/usuario/{usuarioId}` | Desativar registro (remoção lógica) |
+
+## 🌐 Aplicação Web MVC
+
+A aplicação web (`Web-gs-ZenFlow`) oferece uma interface gráfica para gerenciar usuários e registros através de páginas Razor.
+
+### Rotas Disponíveis
+
+#### Home
+- `/` - Página inicial
+- `/Home/Privacy` - Página de privacidade
+
+#### Usuários
+- `/Usuario` - Lista de usuários
+- `/Usuario/Create` - Criar novo usuário
+- `/Usuario/Details/{id}` - Detalhes do usuário
+- `/Usuario/Delete/{id}` - Deletar usuário
+- `/Usuario/Login` - Login de usuário
+- `/Usuario/AlterarEmail/{id}` - Alterar email
+- `/Usuario/AlterarSenha/{id}` - Alterar senha
+
+#### Registros
+- `/Registro` - Lista de registros
+- `/Registro/Create` - Criar novo registro
+- `/Registro/Details/{id}` - Detalhes do registro
+- `/Registro/Delete/{id}` - Deletar registro
+- `/Registro/ByUsuario/{usuarioId}` - Registros por usuário
 
 ### 📋 Exemplos de Requisições
 
@@ -250,41 +349,52 @@ Content-Type: application/json
 
 ## 📚 Documentação Swagger
 
-A documentação interativa da API está disponível através do Swagger quando a aplicação está rodando em ambiente de desenvolvimento.
+A documentação interativa da API está disponível através do Swagger quando a aplicação **gs-ZenFlow** está rodando em ambiente de desenvolvimento.
 
-Acesse: `http://localhost:5000` (ou a porta configurada)
+Acesse: `http://localhost:5000` (ou a porta configurada no `launchSettings.json`)
 
 O Swagger permite:
 - Visualizar todos os endpoints disponíveis
 - Testar as requisições diretamente no navegador
 - Ver os modelos de dados (DTOs)
 - Verificar os códigos de resposta esperados
+- Testar autenticação e autorização (quando implementado)
+
+**Recursos do Swagger:**
+- Configuração personalizada em `appsettings.json`
+- Suporte a múltiplos servidores (desenvolvimento e stage)
+- Anotações habilitadas para melhor documentação
+- Tratamento de erros com ProblemDetails (RFC 7807)
 
 ---
 
 ## 🏗️ Arquitetura
 
-O projeto segue os princípios da **Arquitetura em Camadas (Layered Architecture)** e **Clean Architecture**:
+O projeto segue os princípios da **Arquitetura em Camadas (Layered Architecture)** e **Clean Architecture**. Ambos os projetos (API e Web MVC) compartilham a mesma estrutura de camadas.
 
 ### Camadas
 
 1. **Domain** - Entidades e interfaces de repositórios
    - Contém as regras de negócio puras
    - Não depende de outras camadas
+   - Entidades: `Usuario`, `Registro`
+   - Interfaces: `IUsuarioRepository`, `IRegistroRepository`
 
 2. **Application** - Casos de uso e DTOs
    - Orquestra a lógica de negócio
    - Define contratos de entrada e saída
+   - Use Cases: `UsuarioUseCase`, `RegistroUseCase`
+   - DTOs para transferência de dados
 
 3. **Infrastructure** - Implementações técnicas
-   - Acesso a dados (Entity Framework)
+   - Acesso a dados (Entity Framework Core)
    - Implementações de repositórios
-   - Configurações de mapeamento
+   - Configurações de mapeamento (Fluent API)
+   - Migrations do banco de dados
 
-4. **Controllers** - Camada de apresentação
-   - Endpoints HTTP
-   - Validação de entrada
-   - Tratamento de erros
+4. **Apresentação**
+   - **API (gs-ZenFlow)**: Controllers REST com Swagger
+   - **Web MVC (Web-gs-ZenFlow)**: Controllers MVC com Views Razor
 
 ### Padrões Utilizados
 
@@ -292,6 +402,8 @@ O projeto segue os princípios da **Arquitetura em Camadas (Layered Architecture
 - **Use Case Pattern** - Encapsulamento da lógica de negócio
 - **DTO Pattern** - Transferência de dados entre camadas
 - **Dependency Injection** - Inversão de controle
+- **ProblemDetails (RFC 7807)** - Padronização de respostas de erro na API
+- **CORS** - Configurado para permitir requisições cross-origin
 
 ---
 
@@ -341,41 +453,4 @@ Armazena os registros de estresse dos usuários.
 - Email: RM560066@fiap.com.br
 - RM: 560066
 
----
-
-## 📝 Licença
-
-Este projeto foi desenvolvido como parte do Global Solution da FIAP.
-
----
-
-## 🔍 Observações Importantes
-
-- ⚠️ **Remoção Lógica**: Tanto usuários quanto registros são desativados (remoção lógica), não deletados fisicamente do banco
-- 🔐 **Segurança**: As senhas devem ser tratadas com hash em produção (implementação futura)
-- 📊 **Nível de Estresse**: Valores aceitos de 1 a 5 (1 = muito baixo, 5 = muito alto)
-- 🔑 **Índices Únicos**: Email e CPF são únicos no sistema
-- 🎯 **Soft Delete**: O campo `Ativo` controla a visibilidade dos registros
-
----
-
-## 🐛 Troubleshooting
-
-### Erro ao conectar ao Oracle
-- Verifique se a string de conexão está correta
-- Confirme se o servidor Oracle está acessível
-- Verifique as credenciais de acesso
-
-### Erro ao executar migrations
-- Certifique-se de que o banco de dados existe
-- Verifique se o usuário tem permissões para criar tabelas
-- Confirme que o Oracle.EntityFrameworkCore está instalado
-
-### Swagger não aparece
-- Verifique se está em ambiente de desenvolvimento
-- Confirme que `app.Environment.IsDevelopment()` retorna `true`
-
----
-
-**Desenvolvido com ❤️ para melhorar o bem-estar no ambiente de trabalho**
-
+Este projeto foi desenvolvido para a Global Solution da FIAP.

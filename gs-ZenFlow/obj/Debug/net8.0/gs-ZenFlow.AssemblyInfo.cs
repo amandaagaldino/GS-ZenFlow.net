@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("gs-ZenFlow")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eba6f46e25e042590595689e95833688d3b30191")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e434c45916c7a80a00db16bdcbd854542a7aa01b")]
 [assembly: System.Reflection.AssemblyProductAttribute("gs-ZenFlow")]
 [assembly: System.Reflection.AssemblyTitleAttribute("gs-ZenFlow")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
