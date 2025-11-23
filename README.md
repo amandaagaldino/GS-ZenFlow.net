@@ -10,15 +10,15 @@ O ZenFlow é uma plataforma que usa tecnologia para monitorar o bem-estar coleti
 
 A solução ZenFlow está diretamente alinhada com os Objetivos de Desenvolvimento Sustentável (ODS) da ONU, especialmente:
 
-### 🎯 ODS 8: Trabalho Decente e Crescimento Econômico
+#### 🎯 ODS 8: Trabalho Decente e Crescimento Econômico
 
 Ao focar no bem-estar e na saúde mental, a solução contribui para a promoção de ambientes de trabalho seguros e saudáveis, garantindo um trabalho digno para todos. O monitoramento contínuo do estresse permite que as organizações identifiquem e resolvam problemas antes que impactem significativamente a qualidade de vida dos colaboradores.
 
-### 📚 ODS 4: Educação de Qualidade
+#### 📚 ODS 4: Educação de Qualidade
 
 A partir dos dados coletados, a empresa pode identificar tendências e investir em programas de capacitação e workshops focados em gestão de estresse e inteligência emocional, promovendo o aprendizado ao longo da vida. O ZenFlow fornece insights valiosos que orientam o desenvolvimento de programas educacionais personalizados.
 
-### ⚖️ ODS 10: Redução das Desigualdades
+#### ⚖️ ODS 10: Redução das Desigualdades
 
 O anonimato garante que todos os colaboradores, independentemente do cargo ou vulnerabilidade, possam expressar suas preocupações de forma segura, criando um sistema de apoio mais inclusivo. Isso elimina barreiras hierárquicas e promove equidade no acesso a recursos de bem-estar.
 
@@ -40,7 +40,6 @@ Ambas as aplicações compartilham a mesma arquitetura em camadas, banco de dado
 - [Tecnologias](#-tecnologias)
 - [Estrutura do Projeto](#-estrutura-do-projeto)
 - [Pré-requisitos](#-pré-requisitos)
-- [Configuração](#-configuração)
 - [Executando o Projeto](#-executando-o-projeto)
 - [Migrations](#-migrations)
 - [API Endpoints](#-api-endpoints)
@@ -49,9 +48,6 @@ Ambas as aplicações compartilham a mesma arquitetura em camadas, banco de dado
 - [Arquitetura](#-arquitetura)
 - [Banco de Dados](#-banco-de-dados)
 - [Desenvolvedor](#-desenvolvedor)
-- [Licença](#-licença)
-- [Observações Importantes](#-observações-importantes)
-- [Troubleshooting](#-troubleshooting)
 
 ---
 
